@@ -4,7 +4,8 @@ import 'package:flutterapp/header.dart';
 
 class Bullet extends StatefulWidget {
   final String text;
-  const Bullet(this.text);
+  final VoidCallback onPressed;
+  const Bullet({Key key, this.text, this.onPressed}) : super(key: key);
   @override
   _BulletState createState() => _BulletState();
 }
@@ -25,8 +26,8 @@ class _BulletState extends State<Bullet> {
       ),
       child: RaisedButton(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          side: BorderSide(
+            borderRadius: BorderRadius.circular(10.0),
+            side: BorderSide(
             color: this._color
           )
         ),
@@ -34,8 +35,37 @@ class _BulletState extends State<Bullet> {
         child: Text(widget.text,
             style: TextStyle(color: Colors.black)
         ),
-        onPressed: () { _updateColor(); },
+        onPressed: () {
+        _updateColor();
+        widget.onPressed();
+
+      },
       )
+    );
+  }
+}
+
+class HeaderBullet extends StatefulWidget {
+  String text;
+  Key key;
+  HeaderBullet({this.key, this.text}): super(key: key);
+  @override
+  _HeaderBulletState createState() => _HeaderBulletState();
+}
+
+class _HeaderBulletState extends State<HeaderBullet>{
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: const EdgeInsets.all(10.0),
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.7,
+        ),
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          color: Colors.blue
+        ),
+      child: Text(widget.text),
     );
   }
 }
